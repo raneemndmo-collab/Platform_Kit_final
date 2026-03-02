@@ -1,0 +1,30 @@
+K8S VERIFICATION: DigitalOcean Kubernetes Cluster
+==================================================
+Cluster Name: rasid-nexus-core
+Cluster ID: 90926b36-6e40-4856-868f-22ebcc8a8d1c
+Region: FRA1
+K8s Version: 1.34.1-do.4
+Node Pool Status: 3/3 Running ✅
+HA Control Plane: Enabled ✅
+CPU: 6 vCPUs
+Memory: 12 GiB
+Disk: 240 GiB
+Cost: $112/month (includes HA $40/month)
+VPC: default-fra1
+Node Network: 10.114.0.0/20
+Pod Network: 10.108.0.0/16
+Service Network: 10.109.0.0/19
+
+K8s Deployment Files:
+- namespace.yaml ✅
+- configmap.yaml ✅
+- secrets.yaml ✅
+- deployment.yaml ✅ (replicas, probes, resource limits)
+- service.yaml ✅
+- hpa.yaml ✅ (min: 2, max: 10)
+- ingress.yaml ✅ (DigitalOcean annotations)
+- database.yaml ✅ (PostgreSQL + Redis)
+- pdb-quota.yaml ✅ (PodDisruptionBudget + ResourceQuota)
+- 124 network policy files ✅
+- Dockerfile ✅
+- docker-compose.yml ✅
