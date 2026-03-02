@@ -1,0 +1,11 @@
+{
+  "module_id": "performance_intelligence",
+  "version": "6.4.0",
+  "phase": "v6.4",
+  "description": "Self-Optimizing Performance Intelligence — Resource-Aware AI, Workload Prediction",
+  "event_namespace": "performance_intelligence",
+  "database": "performance_intelligence_db",
+  "tier": 2,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["v6.4"]
+}

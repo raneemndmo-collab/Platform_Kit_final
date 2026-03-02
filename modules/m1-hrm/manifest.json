@@ -1,0 +1,11 @@
+{
+  "module_id": "m1-hrm",
+  "version": "6.4.0",
+  "phase": "1",
+  "description": "Human Resource Management",
+  "event_namespace": "m1_hrm",
+  "database": "hrm_db",
+  "tier": 2,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["P-003", "P-006", "HC-04", "ESR-001"]
+}

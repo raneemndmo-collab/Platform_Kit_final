@@ -1,0 +1,11 @@
+{
+  "module_id": "arabic_ai_engine",
+  "version": "6.4.0",
+  "phase": "v6.4",
+  "description": "Advanced Arabic AI Enhancement — Semantic Adaptation, RTL Viz, Mixed Script",
+  "event_namespace": "arabic_ai_engine",
+  "database": "arabic_ai_engine_db",
+  "tier": 2,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["v6.4"]
+}

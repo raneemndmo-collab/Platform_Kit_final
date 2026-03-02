@@ -1,0 +1,46 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: d10-translation-direction-network-policy
+  namespace: rasid
+  labels:
+    rasid.io/module: d10-translation-direction
+    rasid.io/version: "6.4"
+spec:
+  podSelector:
+    matchLabels:
+      app: d10-translation-direction
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: m30-gateway
+        - podSelector:
+            matchLabels:
+              rasid.io/tier: kernel
+      ports:
+        - protocol: TCP
+          port: 3000
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: d10-translation-direction-db
+      ports:
+        - protocol: TCP
+          port: 5432
+    - to:
+        - podSelector:
+            matchLabels:
+              rasid.io/tier: kernel
+      ports:
+        - protocol: TCP
+          port: 3000
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53

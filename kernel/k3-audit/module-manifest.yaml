@@ -1,0 +1,9 @@
+module_id: "K3"
+name: "Audit"
+tier: "kernel"
+phase: 0
+version: "6.0.0"
+database: { name: "audit_db", isolation: "exclusive" }
+api: { base_path: "/api/v1/audit", version: "v1" }
+events: { namespace: "audit.*" }
+health_endpoint: "/api/v1/audit/health"

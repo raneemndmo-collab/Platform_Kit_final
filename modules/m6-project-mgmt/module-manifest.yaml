@@ -1,0 +1,23 @@
+module_id: M6
+name: Project Management
+version: 1.0.0
+phase: 2
+database:
+  name: projects_db
+  type: postgresql
+  tier: 2
+  instance: db-business-02
+event_namespace: project
+api_base: /api/v1/projects
+dependencies:
+  kernel: [K1, K2, K3, K4, K5, K6, K7, K9, K10]
+  modules: [M1, M8]
+events_published:
+  - project.created
+  - project.updated
+  - project.task.created
+  - project.task.status_changed
+events_subscribed:
+  - workflow.completed
+health_endpoint: /api/v1/projects/health
+complexity: MEDIUM

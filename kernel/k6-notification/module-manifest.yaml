@@ -1,0 +1,9 @@
+module_id: "K6"
+name: "Notification"
+tier: "kernel"
+phase: 0
+version: "6.0.0"
+database: { name: "notification_db", isolation: "exclusive" }
+api: { base_path: "/api/v1/notifications", version: "v1" }
+events: { namespace: "notify.*" }
+health_endpoint: "/api/v1/notifications/health"

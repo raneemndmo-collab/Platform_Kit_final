@@ -1,0 +1,9 @@
+module_id: "K10"
+name: "ModuleLifecycle"
+tier: "kernel"
+phase: 0
+version: "6.0.0"
+database: { name: "lifecycle_db", isolation: "exclusive" }
+api: { base_path: "/api/v1/lifecycle", version: "v1" }
+events: { namespace: "lifecycle.*" }
+health_endpoint: "/api/v1/lifecycle/health"

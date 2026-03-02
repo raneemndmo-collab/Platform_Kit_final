@@ -1,0 +1,11 @@
+{
+  "module_id": "k7-task-orchestration",
+  "version": "6.4.0",
+  "phase": "0",
+  "description": "Task Orchestration",
+  "event_namespace": "k7_tasks",
+  "database": "rasid_k7_tasks",
+  "tier": 1,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["P-003", "P-006", "HC-04", "ESR-001"]
+}

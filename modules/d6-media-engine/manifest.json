@@ -1,0 +1,11 @@
+{
+  "module_id": "d6-media",
+  "version": "6.4.0",
+  "phase": "7",
+  "description": "Media Engine — Image & Chart Processing",
+  "event_namespace": "d6_media",
+  "database": "media_db",
+  "tier": 2,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["P-003", "P-006", "HC-04", "ESR-001"]
+}

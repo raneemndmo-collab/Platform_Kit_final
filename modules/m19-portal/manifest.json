@@ -1,0 +1,11 @@
+{
+  "module_id": "m19-portal",
+  "version": "6.4.0",
+  "phase": "4",
+  "description": "User Portal",
+  "event_namespace": "m19_portal",
+  "database": "portal_db",
+  "tier": 2,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["P-003", "P-006", "HC-04", "ESR-001"]
+}

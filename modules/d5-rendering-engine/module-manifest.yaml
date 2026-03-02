@@ -1,0 +1,28 @@
+module_id: D5
+name: Rendering Engine
+version: 1.0.0
+phase: 6
+tier: X
+cluster: DPC
+database:
+  name: render_db
+  type: postgresql
+  tier: 1
+  instance: db-dpc-core
+event_namespace: render
+api_base: /api/v1/render
+dependencies:
+  kernel: [K4, K5, K9, K10]
+  modules: []
+  d_modules: [D1]
+events_published:
+  - render.completed
+  - render.cached
+  - render.failed
+events_subscribed:
+  - "conversion.step.render.requested"
+health_endpoint: /api/v1/render/health
+complexity: VERY-HIGH
+forbidden:
+  - "TXD-005: No business module DB access"
+  - "TXD-007: Deterministic processing only"

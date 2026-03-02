@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rasid-config
+  namespace: rasid
+  labels:
+    app.kubernetes.io/part-of: rasid-platform
+data:
+  NODE_ENV: "production"
+  PORT: "3000"
+  LOG_LEVEL: "info"
+  DB_POOL_MAX: "10"
+  DB_POOL_MIN: "2"
+  REDIS_PORT: "6379"
+  KAFKA_BROKERS: "kafka:9092"
+  JWT_EXPIRY: "3600"
+  RATE_LIMIT_MAX: "100"
+  RATE_LIMIT_WINDOW: "60000"
+  CIRCUIT_BREAKER_THRESHOLD: "5"
+  CIRCUIT_BREAKER_RESET_MS: "30000"
+  BOUNDED_MAP_MAX_SIZE: "10000"
+  TOKEN_BUDGET: "128000"
+  MEMORY_BUDGET_MB: "512"
+  QUERY_TIMEOUT_MS: "30000"
+  HEALTH_CHECK_INTERVAL: "15000"
+  SWAGGER_ENABLED: "true"
+  CORS_ORIGIN: "*"

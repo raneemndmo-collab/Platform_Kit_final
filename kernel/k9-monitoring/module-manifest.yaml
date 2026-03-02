@@ -1,0 +1,9 @@
+module_id: "K9"
+name: "Monitoring"
+tier: "kernel"
+phase: 0
+version: "6.0.0"
+database: { name: "monitoring_db", isolation: "exclusive" }
+api: { base_path: "/api/v1/monitoring", version: "v1" }
+events: { namespace: "monitoring.*" }
+health_endpoint: "/api/v1/monitoring/health"

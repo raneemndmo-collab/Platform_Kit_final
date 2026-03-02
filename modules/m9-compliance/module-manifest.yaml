@@ -1,0 +1,27 @@
+module_id: M9
+name: Compliance Management
+version: 1.0.0
+phase: 2
+database:
+  name: compliance_db
+  type: postgresql
+  tier: 2
+  instance: db-business-02
+event_namespace: compliance
+api_base: /api/v1/compliance
+dependencies:
+  kernel: [K1, K2, K3, K4, K5, K6, K7, K9, K10]
+  modules: [M7, M8]
+events_published:
+  - compliance.framework.created
+  - compliance.control.non_compliant
+  - compliance.assessment.started
+  - compliance.assessment.completed
+  - compliance.risk.created
+  - compliance.violation.reported
+  - compliance.violation.resolved
+events_subscribed:
+  - "*.policy.changed"
+  - workflow.completed
+health_endpoint: /api/v1/compliance/health
+complexity: MEDIUM-HIGH

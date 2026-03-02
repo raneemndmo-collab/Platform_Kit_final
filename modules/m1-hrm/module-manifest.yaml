@@ -1,0 +1,32 @@
+module:
+  id: M1
+  name: HRM
+  version: 1.0.0
+  tier: business-domain
+  phase: 1
+  complexity: MEDIUM
+database:
+  name: hrm_db
+  isolation: dedicated
+  tier: 2
+dependencies:
+  kernel: [K1, K2, K3, K4, K5, K6, K7, K9, K10]
+  modules: []
+api:
+  basePath: /api/v1/hrm
+  version: v1
+events:
+  event_namespace: hrm
+  namespace: hrm
+  publishes:
+    - hrm.employee.created
+    - hrm.employee.updated
+    - hrm.employee.terminated
+    - hrm.leave.approved
+    - hrm.payroll.approved
+    - hrm.attendance.recorded
+  subscribes:
+    - auth.session.created
+health:
+  endpoint: /api/v1/hrm/health
+  interval: 15s

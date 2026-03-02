@@ -1,0 +1,11 @@
+{
+  "module_id": "data_intelligence",
+  "version": "6.4.0",
+  "phase": "v6.4",
+  "description": "Advanced Data Intelligence Core — Data Modeling, Metrics, Predictive BI",
+  "event_namespace": "data_intelligence",
+  "database": "data_intelligence_db",
+  "tier": 2,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["v6.4"]
+}

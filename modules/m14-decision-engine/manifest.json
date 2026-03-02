@@ -1,0 +1,11 @@
+{
+  "module_id": "m14-decision",
+  "version": "6.4.0",
+  "phase": "3",
+  "description": "Decision Engine",
+  "event_namespace": "m14_decision",
+  "database": "decision_db",
+  "tier": 2,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["P-003", "P-006", "HC-04", "ESR-001"]
+}

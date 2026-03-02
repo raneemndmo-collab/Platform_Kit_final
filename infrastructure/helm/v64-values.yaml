@@ -1,0 +1,94 @@
+# Rasid v6.4 — Enhanced Module Helm Values
+
+modules:
+  apil-orchestrator:
+    replicas: 2
+    resources:
+      requests: { cpu: 500m, memory: 512Mi }
+      limits: { cpu: 2000m, memory: 2Gi }
+    gpu: false
+    autoscaling:
+      enabled: true
+      minReplicas: 2
+      maxReplicas: 10
+      targetCPU: 70
+
+  arabic-ai-engine:
+    replicas: 2
+    resources:
+      requests: { cpu: 500m, memory: 512Mi }
+      limits: { cpu: 2000m, memory: 2Gi }
+    gpu: false
+    autoscaling:
+      enabled: true
+      minReplicas: 2
+      maxReplicas: 8
+
+  bi-cognitive:
+    replicas: 2
+    resources:
+      requests: { cpu: 1000m, memory: 1Gi }
+      limits: { cpu: 4000m, memory: 4Gi }
+    gpu: true
+    gpuMemory: 2Gi
+    autoscaling:
+      enabled: true
+      minReplicas: 2
+      maxReplicas: 12
+
+  data-intelligence:
+    replicas: 2
+    resources:
+      requests: { cpu: 1000m, memory: 1Gi }
+      limits: { cpu: 4000m, memory: 8Gi }
+    gpu: true
+    gpuMemory: 4Gi
+    autoscaling:
+      enabled: true
+      minReplicas: 2
+      maxReplicas: 16
+
+  data-safety:
+    replicas: 3
+    resources:
+      requests: { cpu: 250m, memory: 256Mi }
+      limits: { cpu: 1000m, memory: 1Gi }
+    gpu: false
+    autoscaling:
+      enabled: true
+      minReplicas: 3
+      maxReplicas: 6
+
+  infographic-engine:
+    replicas: 2
+    resources:
+      requests: { cpu: 500m, memory: 512Mi }
+      limits: { cpu: 2000m, memory: 2Gi }
+    gpu: false
+
+  performance-intelligence:
+    replicas: 2
+    resources:
+      requests: { cpu: 250m, memory: 256Mi }
+      limits: { cpu: 1000m, memory: 1Gi }
+    gpu: false
+
+  spreadsheet-intelligence:
+    replicas: 2
+    resources:
+      requests: { cpu: 500m, memory: 1Gi }
+      limits: { cpu: 2000m, memory: 4Gi }
+    gpu: false
+    autoscaling:
+      enabled: true
+      minReplicas: 2
+      maxReplicas: 10
+
+database:
+  v64_modules:
+    storageClass: gp3
+    storageSize: 20Gi
+    backup:
+      enabled: true
+      schedule: "0 2 * * *"
+      retention: 30d

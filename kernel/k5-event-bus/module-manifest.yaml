@@ -1,0 +1,9 @@
+module_id: "K5"
+name: "EventBus"
+tier: "kernel"
+phase: 0
+version: "6.0.0"
+database: { name: "eventbus_db", isolation: "exclusive" }
+api: { base_path: "/api/v1/events", version: "v1" }
+events: { namespace: "events.*" }
+health_endpoint: "/api/v1/events/health"

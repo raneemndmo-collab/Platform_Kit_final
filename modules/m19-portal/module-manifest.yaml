@@ -1,0 +1,20 @@
+module_id: M19
+name: Portal
+version: 1.0.0
+phase: 4
+database:
+  name: portal_db
+  type: postgresql
+  tier: 2
+  instance: db-experience-01
+event_namespace: portal
+api_base: /api/v1/portal
+dependencies:
+  kernel: [K1, K2, K3, K4, K5, K9, K10]
+  modules: [M25, M22]
+events_published:
+  - portal.page.created
+  - portal.page.published
+events_subscribed: []
+health_endpoint: /api/v1/portal/health
+complexity: MEDIUM

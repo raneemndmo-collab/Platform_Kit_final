@@ -1,0 +1,30 @@
+module_id: D1
+name: CDR Engine
+version: 1.0.0
+phase: 6
+tier: X
+cluster: DPC
+database:
+  name: cdr_db
+  type: postgresql
+  tier: 1
+  instance: db-dpc-core
+event_namespace: cdr
+api_base: /api/v1/cdr
+dependencies:
+  kernel: [K1, K2, K3, K4, K5, K7, K8, K9, K10]
+  modules: []
+  d_modules: []
+events_published:
+  - cdr.parsed
+  - cdr.validated
+  - cdr.failed
+  - cdr.updated
+  - cdr.version.created
+events_subscribed:
+  - "conversion.ingestion.requested"
+health_endpoint: /api/v1/cdr/health
+complexity: HIGH
+forbidden:
+  - "TXD-005: No business module DB access"
+  - "TXD-007: Deterministic processing only"

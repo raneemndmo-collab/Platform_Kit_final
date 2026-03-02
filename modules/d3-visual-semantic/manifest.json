@@ -1,0 +1,11 @@
+{
+  "module_id": "d3-visual",
+  "version": "6.4.0",
+  "phase": "6",
+  "description": "Visual Semantic Classification",
+  "event_namespace": "d3_visual",
+  "database": "visual_db",
+  "tier": 2,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["P-003", "P-006", "HC-04", "ESR-001"]
+}

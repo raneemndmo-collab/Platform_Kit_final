@@ -1,0 +1,11 @@
+# Threat Model: ${MODULE_NAME} (ZTS-016)
+**Module:** ${MODULE_ID} | **Review:** quarterly
+## STRIDE Analysis
+| Category | Threat | Impact | Mitigation | Rule |
+|----------|--------|--------|------------|------|
+| Spoofing | Forged tokens | CRITICAL | K1 validation | ZTS-003 |
+| Tampering | Payload modification | HIGH | K8 schema | DGP-003 |
+| Repudiation | Denied actions | HIGH | K3 audit | P-017 |
+| Info Disclosure | PII in logs | CRITICAL | Interceptor | FP-050 |
+| DoS | Request flood | MEDIUM | M30 rate limit | BP-L2 |
+| Elevation | Unauthorized | CRITICAL | K2 RBAC | ZTS-012 |

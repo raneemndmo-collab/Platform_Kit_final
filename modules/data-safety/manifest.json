@@ -1,0 +1,11 @@
+{
+  "module_id": "data_safety",
+  "version": "6.4.0",
+  "phase": "v6.4",
+  "description": "Data Safety & Integrity AI — Quality Scoring, Integrity Guard",
+  "event_namespace": "data_safety",
+  "database": "data_safety_db",
+  "tier": 2,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["v6.4"]
+}

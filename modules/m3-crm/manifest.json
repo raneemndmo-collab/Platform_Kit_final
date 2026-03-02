@@ -1,0 +1,11 @@
+{
+  "module_id": "m3-crm",
+  "version": "6.4.0",
+  "phase": "1",
+  "description": "Customer Relationship Management",
+  "event_namespace": "m3_crm",
+  "database": "crm_db",
+  "tier": 2,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["P-003", "P-006", "HC-04", "ESR-001"]
+}

@@ -1,0 +1,9 @@
+module_id: "K2"
+name: "Authorization"
+tier: "kernel"
+phase: 0
+version: "6.0.0"
+database: { name: "authz_db", isolation: "exclusive" }
+api: { base_path: "/api/v1/authz", version: "v1" }
+events: { namespace: "authz.*" }
+health_endpoint: "/api/v1/authz/health"

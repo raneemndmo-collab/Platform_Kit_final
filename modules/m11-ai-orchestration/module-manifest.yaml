@@ -1,0 +1,25 @@
+module_id: M11
+name: AI Orchestration
+version: 1.0.0
+phase: 3
+database:
+  name: ai_orchestration_db
+  type: postgresql
+  tier: 3
+  instance: db-ai-01
+event_namespace: ai
+api_base: /api/v1/ai
+dependencies:
+  kernel: [K1, K2, K3, K4, K5, K9, K10]
+  modules: []
+containment:
+  db_credentials: ai_orchestration_db_only
+  no_cross_db_access: true
+events_published:
+  - ai.model.registered
+  - ai.model.hot_swapped
+  - ai.inference.completed
+  - ai.inference.fallback
+events_subscribed: []
+health_endpoint: /api/v1/ai/health
+complexity: HIGH

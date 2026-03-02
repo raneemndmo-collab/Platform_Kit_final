@@ -1,0 +1,59 @@
+# ═══════════════════════════════════════════════════════════════════════
+# RASID v6.2 Module Manifest Template
+# Rule: SA-002 (Manifest matches actual dependencies), DEP-007
+# ═══════════════════════════════════════════════════════════════════════
+module:
+  id: ${MODULE_ID}
+  name: ${MODULE_NAME}
+  version: 1.0.0
+  phase: ${PHASE}
+  tier: 1
+  status: active
+  owner: rasid-team
+  description: "${MODULE_DESCRIPTION}"
+
+database:
+  name: ${DB_NAME}
+  tier: 2  # Change to 1 for physically isolated
+  host: db-${DB_HOST}
+  port: 5432
+  schema: public
+  migrations: true
+
+dependencies:
+  kernel:
+    - K1  # Authentication
+    - K2  # Authorization
+    - K3  # Audit
+    - K4  # Configuration
+    - K5  # Event Bus
+    - K9  # Monitoring
+    - K10 # Module Lifecycle
+  modules: []  # Declare module dependencies here
+
+events:
+  namespace: ${EVENT_NAMESPACE}
+  publishes: []
+  subscribes: []
+
+api:
+  base_path: /api/v1/${API_PATH}
+  version: v1
+  endpoints: []
+
+# v6.2 Governance
+governance:
+  data_classification: required  # DGP-001
+  network_policy: k8s/network-policies/${MODULE_SLUG}-netpol.yaml
+  threat_model: docs/security/threat-models/${MODULE_SLUG}.md
+  runbook: docs/runbooks/${MODULE_SLUG}.md
+  slo:
+    availability: 99.5%
+    latency_p50: 100ms
+    latency_p95: 200ms
+    error_rate: 0.5%
+
+health:
+  endpoint: /api/v1/${API_PATH}/health
+  interval: 15s
+  timeout: 5s

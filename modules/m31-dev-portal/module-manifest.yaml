@@ -1,0 +1,23 @@
+module_id: M31
+name: Developer Portal
+version: 1.0.0
+phase: 5
+database:
+  name: devportal_db
+  type: postgresql
+  tier: 1
+  instance: db-core-01
+event_namespace: devportal
+api_base: /api/v1/developer
+dependencies:
+  kernel: [K1, K2, K3, K4, K5, K9, K10]
+  modules: [M27, M28, M30]
+events_published:
+  - devportal.apikey.created
+  - devportal.apikey.revoked
+  - devportal.docs.published
+  - devportal.sandbox.created
+events_subscribed:
+  - tenant.created
+health_endpoint: /api/v1/developer/health
+complexity: HIGH

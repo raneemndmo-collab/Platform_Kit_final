@@ -1,0 +1,22 @@
+module_id: M23
+name: Collaboration Hub
+version: 1.0.0
+phase: 4
+database:
+  name: collaboration_db
+  type: postgresql
+  tier: 2
+  instance: db-experience-01
+event_namespace: collaboration
+api_base: /api/v1/collaboration
+dependencies:
+  kernel: [K1, K2, K3, K4, K5, K9, K10]
+  modules: [M20, M25]
+events_published:
+  - collaboration.channel.created
+  - collaboration.message.sent
+  - collaboration.presence.updated
+events_subscribed:
+  - notification.sent
+health_endpoint: /api/v1/collaboration/health
+complexity: MEDIUM-HIGH

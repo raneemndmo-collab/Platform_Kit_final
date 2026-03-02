@@ -1,0 +1,64 @@
+# RASID v6.2 NetworkPolicy: m7-document-mgmt (ZTS-019)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: m7-document-mgmt-netpol
+  namespace: rasid-platform
+  labels:
+    app: m7-document-mgmt
+    v62-governance: "true"
+spec:
+  podSelector:
+    matchLabels:
+      app: m7-document-mgmt
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: m30-gateway
+      ports:
+        - protocol: TCP
+          port: 3000
+    - from:
+        - podSelector:
+            matchLabels:
+              app: k9-monitoring
+      ports:
+        - protocol: TCP
+          port: 3000
+  egress:
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: UDP
+          port: 53
+    - to:
+        - podSelector:
+            matchLabels:
+              app: m7-document-mgmt-db
+      ports:
+        - protocol: TCP
+          port: 5432
+    - to:
+        - podSelector:
+            matchLabels:
+              app: k1-auth
+    - to:
+        - podSelector:
+            matchLabels:
+              app: k2-authz
+    - to:
+        - podSelector:
+            matchLabels:
+              app: k5-events
+    - to:
+        - podSelector:
+            matchLabels:
+              app: k9-monitoring
+    - to:
+        - podSelector:
+            matchLabels:
+              app: m25-file-storage

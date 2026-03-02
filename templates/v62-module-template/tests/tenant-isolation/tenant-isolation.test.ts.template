@@ -1,0 +1,9 @@
+// v6.2 Tenant Isolation Test (DT-001, TNT-001, TIC-001)
+describe('${MODULE_NAME} Tenant Isolation', () => {
+  it('should isolate data between tenants', async () => {
+    // Tenant A data MUST NOT be visible to Tenant B
+  });
+  it('should reject operations without tenantId', async () => {
+    // ForbiddenException expected
+  });
+});

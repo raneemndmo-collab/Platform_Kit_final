@@ -1,0 +1,11 @@
+{
+  "module_id": "k9-monitoring",
+  "version": "6.4.0",
+  "phase": "0",
+  "description": "Monitoring & Observability",
+  "event_namespace": "k9_monitoring",
+  "database": "rasid_k9_monitoring",
+  "tier": 1,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["P-003", "P-006", "HC-04", "ESR-001"]
+}

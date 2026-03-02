@@ -1,0 +1,52 @@
+# RASID v6.2 NetworkPolicy: m15-knowledge-graph (ZTS-019)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: m15-knowledge-graph-netpol
+  namespace: rasid-platform
+  labels:
+    app: m15-knowledge-graph
+    v62-governance: "true"
+spec:
+  podSelector:
+    matchLabels:
+      app: m15-knowledge-graph
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: m30-gateway
+      ports:
+        - protocol: TCP
+          port: 3000
+    - from:
+        - podSelector:
+            matchLabels:
+              app: k9-monitoring
+      ports:
+        - protocol: TCP
+          port: 3000
+  egress:
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: UDP
+          port: 53
+    - to:
+        - podSelector:
+            matchLabels:
+              app: m15-knowledge-graph-db
+      ports:
+        - protocol: TCP
+          port: 5432
+    - to:
+        - podSelector:
+            matchLabels:
+              app: k5-events
+    - to:
+        - podSelector:
+            matchLabels:
+              app: k9-monitoring

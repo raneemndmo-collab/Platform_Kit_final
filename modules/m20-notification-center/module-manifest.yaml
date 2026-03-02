@@ -1,0 +1,22 @@
+module_id: M20
+name: Notification Center
+version: 1.0.0
+phase: 4
+database:
+  name: notification_db
+  type: postgresql
+  tier: 2
+  instance: db-experience-01
+event_namespace: notification
+api_base: /api/v1/notifications
+dependencies:
+  kernel: [K1, K2, K3, K4, K5, K9, K10]
+  modules: []
+events_published:
+  - notification.sent
+events_subscribed:
+  - "*.approval.requested"
+  - workflow.step.approved
+  - workflow.step.rejected
+health_endpoint: /api/v1/notifications/health
+complexity: MEDIUM

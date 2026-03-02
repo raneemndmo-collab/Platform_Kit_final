@@ -1,0 +1,22 @@
+module_id: M22
+name: Personalization
+version: 1.0.0
+phase: 4
+database:
+  name: personalization_db
+  type: postgresql
+  tier: 2
+  instance: db-experience-01
+event_namespace: personalization
+api_base: /api/v1/personalization
+dependencies:
+  kernel: [K1, K2, K3, K4, K5, K9, K10]
+  modules: [M12]
+events_published:
+  - personalization.profile.updated
+  - personalization.activity.tracked
+events_subscribed:
+  - "*.viewed"
+  - "*.created"
+health_endpoint: /api/v1/personalization/health
+complexity: MEDIUM

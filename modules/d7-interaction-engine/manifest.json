@@ -1,0 +1,11 @@
+{
+  "module_id": "d7-interact",
+  "version": "6.4.0",
+  "phase": "7",
+  "description": "Interaction Engine — Links & Animations",
+  "event_namespace": "d7_interact",
+  "database": "interact_db",
+  "tier": 2,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["P-003", "P-006", "HC-04", "ESR-001"]
+}

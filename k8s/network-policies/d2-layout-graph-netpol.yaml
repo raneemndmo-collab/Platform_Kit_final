@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: d2-layout-graph-netpol
+  namespace: rasid-tierx
+  labels:
+    tier: X
+    cluster: DPC
+spec:
+  podSelector:
+    matchLabels:
+      app: d2-layout-graph
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: d4-conversion-orchestrator
+        - podSelector:
+            matchLabels:
+              app: m30-gateway
+      ports:
+        - port: 3000
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              tier: X
+      ports:
+        - port: 3000
+    - to:
+        - podSelector:
+            matchLabels:
+              app: d2-layout-graph-db
+      ports:
+        - port: 5432

@@ -1,0 +1,9 @@
+module_id: "K7"
+name: "TaskOrchestration"
+tier: "kernel"
+phase: 0
+version: "6.0.0"
+database: { name: "orchestration_db", isolation: "exclusive" }
+api: { base_path: "/api/v1/orchestration", version: "v1" }
+events: { namespace: "orchestration.*" }
+health_endpoint: "/api/v1/orchestration/health"

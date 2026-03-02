@@ -1,0 +1,11 @@
+{
+  "module_id": "m4-inventory",
+  "version": "6.4.0",
+  "phase": "1",
+  "description": "Inventory Management",
+  "event_namespace": "m4_inventory",
+  "database": "inventory_db",
+  "tier": 2,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["P-003", "P-006", "HC-04", "ESR-001"]
+}

@@ -1,0 +1,105 @@
+# =============================================================================
+# Rasid Platform v6 — Network Policy: Database Isolation
+# Constitutional Reference: DBM-003, P-003, Cross-Boundary Enforcement
+# Kubernetes NetworkPolicy restricts database port egress per namespace.
+# =============================================================================
+
+# Rule: Kernel pods can only reach their assigned database
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: kernel-db-isolation
+  namespace: rasid-kernel
+spec:
+  podSelector:
+    matchLabels:
+      tier: kernel
+  policyTypes:
+    - Egress
+  egress:
+    # Allow DNS
+    - to: []
+      ports:
+        - port: 53
+          protocol: UDP
+        - port: 53
+          protocol: TCP
+    # Allow PostgreSQL only to kernel database
+    - to:
+        - podSelector:
+            matchLabels:
+              app: postgres-kernel
+      ports:
+        - port: 5432
+          protocol: TCP
+    # Allow Redis
+    - to:
+        - podSelector:
+            matchLabels:
+              app: redis
+      ports:
+        - port: 6379
+          protocol: TCP
+    # Allow Kafka (K5 Event Bus)
+    - to:
+        - podSelector:
+            matchLabels:
+              app: kafka
+      ports:
+        - port: 29092
+          protocol: TCP
+    # Allow inter-kernel communication (via API)
+    - to:
+        - podSelector:
+            matchLabels:
+              tier: kernel
+      ports:
+        - port: 3000
+          protocol: TCP
+
+---
+# Block kernel pods from accessing business module databases
+# This policy will be active after Phase 1 when business DBs exist
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: block-kernel-to-business-db
+  namespace: rasid-kernel
+spec:
+  podSelector:
+    matchLabels:
+      tier: kernel
+  policyTypes:
+    - Egress
+  egress:
+    # Deny all traffic to business namespace databases
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              name: rasid-business
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/component: database
+
+---
+# Block ALL AI cluster access to kernel databases (APE-002)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: block-ai-to-kernel-db
+  namespace: rasid-kernel
+spec:
+  podSelector:
+    matchLabels:
+      app: postgres-kernel
+  policyTypes:
+    - Ingress
+  ingress:
+    # Only kernel pods can access kernel databases
+    - from:
+        - podSelector:
+            matchLabels:
+              tier: kernel
+      ports:
+        - port: 5432
+          protocol: TCP

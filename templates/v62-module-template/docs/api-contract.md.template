@@ -1,0 +1,4 @@
+# API Contract: ${MODULE_NAME} (API-009)
+## Base: /api/v1/${API_PATH}
+POST / → Create (201) | GET /:id → Get (200/404) | GET / → List (200) | GET /health → Health (200)
+Auth: Bearer token (K1) | Headers: x-tenant-id required

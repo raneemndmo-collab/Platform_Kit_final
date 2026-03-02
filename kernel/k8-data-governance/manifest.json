@@ -1,0 +1,11 @@
+{
+  "module_id": "k8-data-governance",
+  "version": "6.4.0",
+  "phase": "0",
+  "description": "Data Governance",
+  "event_namespace": "k8_governance",
+  "database": "rasid_k8_governance",
+  "tier": 1,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["P-003", "P-006", "HC-04", "ESR-001"]
+}

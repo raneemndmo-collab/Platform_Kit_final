@@ -1,0 +1,11 @@
+{
+  "module_id": "m28-tenant",
+  "version": "6.4.0",
+  "phase": "5",
+  "description": "Tenant Management",
+  "event_namespace": "m28_tenant",
+  "database": "tenant_db",
+  "tier": 2,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["P-003", "P-006", "HC-04", "ESR-001"]
+}

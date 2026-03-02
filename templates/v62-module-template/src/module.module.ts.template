@@ -1,0 +1,25 @@
+/**
+ * ═══════════════════════════════════════════════════════════════════════
+ * RASID v6.2 Module Template: NestJS Module
+ * Rules: P-012 (Module Registration), K10 lifecycle compliance
+ * ═══════════════════════════════════════════════════════════════════════
+ */
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ${MODULE_NAME}Controller } from './controllers/${MODULE_SLUG}.controller';
+import { ${MODULE_NAME}Service } from './services/${MODULE_SLUG}.service';
+// Import entities from domain layer
+// import { ${ENTITY_NAME} } from './domain/entities';
+
+@Module({
+  imports: [
+    // v6.2: Own database connection ONLY (P-003, Data Isolation)
+    TypeOrmModule.forFeature([
+      // ${ENTITY_NAME},
+    ]),
+  ],
+  controllers: [${MODULE_NAME}Controller],
+  providers: [${MODULE_NAME}Service],
+  exports: [${MODULE_NAME}Service],
+})
+export class ${MODULE_NAME}Module {}

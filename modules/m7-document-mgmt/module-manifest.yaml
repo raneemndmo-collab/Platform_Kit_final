@@ -1,0 +1,27 @@
+module_id: M7
+name: Document Management
+version: 1.0.0
+phase: 2
+tier: 1
+database:
+  name: documents_db
+  type: postgresql
+  tier: 2
+  instance: db-business-02
+event_namespace: document
+api_base: /api/v1/documents
+dependencies:
+  kernel: [K1, K2, K3, K4, K5, K6, K7, K9, K10]
+  modules: [M25]
+events_published:
+  - document.created
+  - document.updated
+  - document.submitted
+  - document.approved
+  - document.rejected
+  - document.published
+  - document.archived
+events_subscribed:
+  - file.stored
+health_endpoint: /api/v1/documents/health
+complexity: MEDIUM

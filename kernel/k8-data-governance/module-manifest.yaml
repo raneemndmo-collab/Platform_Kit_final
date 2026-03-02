@@ -1,0 +1,9 @@
+module_id: "K8"
+name: "DataGovernance"
+tier: "kernel"
+phase: 0
+version: "6.0.0"
+database: { name: "governance_db", isolation: "exclusive" }
+api: { base_path: "/api/v1/governance", version: "v1" }
+events: { namespace: "governance.*" }
+health_endpoint: "/api/v1/governance/health"

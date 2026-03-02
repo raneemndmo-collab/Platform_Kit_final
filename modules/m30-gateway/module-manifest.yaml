@@ -1,0 +1,40 @@
+# =============================================================================
+# M30: API Gateway — Module Manifest
+# Constitutional Reference: Part 4.4, DEP-007
+# FORBIDDEN: Containing business logic (FP-021)
+# =============================================================================
+module:
+  id: M30
+  name: API Gateway
+  version: 1.0.0
+  tier: platform-services
+  phase: 1
+  complexity: MEDIUM-HIGH
+
+database:
+  name: gateway_db
+  isolation: dedicated
+  tier: 2
+
+dependencies:
+  kernel: [K1, K2, K4, K5, K9, K10]
+  modules: []
+
+api:
+  basePath: /api/v1/gateway
+  version: v1
+
+events:
+  event_namespace: gateway
+  namespace: gateway
+  publishes:
+    - gateway.rate.exceeded
+    - gateway.error.upstream
+    - gateway.error.validation
+  subscribes:
+    - module.registered
+    - config.changed
+
+health:
+  endpoint: /api/v1/gateway/health
+  interval: 15s

@@ -1,0 +1,11 @@
+{
+  "module_id": "k1-auth",
+  "version": "6.4.0",
+  "phase": "0",
+  "description": "Authentication & Identity",
+  "event_namespace": "k1_auth",
+  "database": "rasid_k1_auth",
+  "tier": 1,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["P-003", "P-006", "HC-04", "ESR-001"]
+}

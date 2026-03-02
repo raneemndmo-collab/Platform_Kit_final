@@ -1,0 +1,60 @@
+# RASID v6.2 NetworkPolicy: m26-scheduler (ZTS-019)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: m26-scheduler-netpol
+  namespace: rasid-platform
+  labels:
+    app: m26-scheduler
+    v62-governance: "true"
+spec:
+  podSelector:
+    matchLabels:
+      app: m26-scheduler
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: m30-gateway
+      ports:
+        - protocol: TCP
+          port: 3000
+    - from:
+        - podSelector:
+            matchLabels:
+              app: k9-monitoring
+      ports:
+        - protocol: TCP
+          port: 3000
+  egress:
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: UDP
+          port: 53
+    - to:
+        - podSelector:
+            matchLabels:
+              app: m26-scheduler-db
+      ports:
+        - protocol: TCP
+          port: 5432
+    - to:
+        - podSelector:
+            matchLabels:
+              app: k1-auth
+    - to:
+        - podSelector:
+            matchLabels:
+              app: k5-events
+    - to:
+        - podSelector:
+            matchLabels:
+              app: k7-task-orchestration
+    - to:
+        - podSelector:
+            matchLabels:
+              app: k9-monitoring

@@ -1,0 +1,33 @@
+-- ═══════════════════════════════════════════════════════════════════════
+-- RASID v6.2 Module Template: Initial Migration
+-- Rule: DGP-001 (Classification per field), DGP-003 (No unclassified fields)
+-- ═══════════════════════════════════════════════════════════════════════
+
+CREATE TABLE IF NOT EXISTS ${TABLE_NAME} (
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),  -- L2: RESTRICTED
+  tenant_id   UUID NOT NULL,                               -- L2: RESTRICTED (P-016)
+  -- Add entity fields here with classification comments:
+  -- name      VARCHAR(255) NOT NULL,                      -- L3: INTERNAL
+  -- email     VARCHAR(255),                               -- L4: CONFIDENTIAL, PII=true
+  status      VARCHAR(50) DEFAULT 'active',                -- L2: RESTRICTED
+  created_at  TIMESTAMPTZ DEFAULT NOW(),                   -- L2: RESTRICTED
+  updated_at  TIMESTAMPTZ DEFAULT NOW()                    -- L2: RESTRICTED
+);
+
+-- v6.2: Tenant isolation index (TNT-001)
+CREATE INDEX IF NOT EXISTS idx_${TABLE_NAME}_tenant ON ${TABLE_NAME}(tenant_id);
+
+-- v6.2: Row-Level Security (TNT-002)
+ALTER TABLE ${TABLE_NAME} ENABLE ROW LEVEL SECURITY;
+CREATE POLICY tenant_isolation ON ${TABLE_NAME}
+  USING (tenant_id = current_setting('app.tenant_id')::uuid);
+
+-- ═══════════════════════════════════════════════════════════════════════
+-- MANDATORY: Register ALL fields in Data Classification Registry
+-- Run AFTER this migration:
+-- INSERT INTO kernel.data_classification_registry
+--   (module_id, database_name, table_name, column_name, classification, pii_flag, ...)
+-- VALUES
+--   ('${MODULE_ID}', '${DB_NAME}', '${TABLE_NAME}', 'id', 'L2', false, ...),
+--   ('${MODULE_ID}', '${DB_NAME}', '${TABLE_NAME}', 'tenant_id', 'L2', false, ...);
+-- ═══════════════════════════════════════════════════════════════════════

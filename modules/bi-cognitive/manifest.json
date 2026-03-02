@@ -1,0 +1,11 @@
+{
+  "module_id": "bi_cognitive",
+  "version": "6.4.0",
+  "phase": "v6.4",
+  "description": "BI Cognitive Acceleration — Real-Time Insights, Dashboard Intelligence, Cross-Dashboard",
+  "event_namespace": "bi_cognitive",
+  "database": "bi_cognitive_db",
+  "tier": 2,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["v6.4"]
+}

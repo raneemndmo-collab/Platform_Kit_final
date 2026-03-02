@@ -1,0 +1,11 @@
+{
+  "module_id": "k10-lifecycle",
+  "version": "6.4.0",
+  "phase": "0",
+  "description": "Module Lifecycle Management",
+  "event_namespace": "k10_lifecycle",
+  "database": "rasid_k10_lifecycle",
+  "tier": 1,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["P-003", "P-006", "HC-04", "ESR-001"]
+}

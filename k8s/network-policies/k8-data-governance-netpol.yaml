@@ -1,0 +1,56 @@
+# RASID v6.2 NetworkPolicy: k8-data-governance (ZTS-019)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: k8-data-governance-netpol
+  namespace: rasid-platform
+  labels:
+    app: k8-data-governance
+    v62-governance: "true"
+spec:
+  podSelector:
+    matchLabels:
+      app: k8-data-governance
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: m30-gateway
+      ports:
+        - protocol: TCP
+          port: 3000
+    - from:
+        - podSelector:
+            matchLabels:
+              app: k9-monitoring
+      ports:
+        - protocol: TCP
+          port: 3000
+  egress:
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: UDP
+          port: 53
+    - to:
+        - podSelector:
+            matchLabels:
+              app: k8-data-governance-db
+      ports:
+        - protocol: TCP
+          port: 5432
+    - to:
+        - podSelector:
+            matchLabels:
+              app: k4-config
+    - to:
+        - podSelector:
+            matchLabels:
+              app: k5-events
+    - to:
+        - podSelector:
+            matchLabels:
+              app: k9-monitoring

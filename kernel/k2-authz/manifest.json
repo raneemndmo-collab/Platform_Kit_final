@@ -1,0 +1,11 @@
+{
+  "module_id": "k2-authz",
+  "version": "6.4.0",
+  "phase": "0",
+  "description": "Authorization & RBAC",
+  "event_namespace": "k2_authz",
+  "database": "rasid_k2_authz",
+  "tier": 1,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["P-003", "P-006", "HC-04", "ESR-001"]
+}

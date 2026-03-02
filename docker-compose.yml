@@ -1,0 +1,62 @@
+# Rasid v6.4 — Docker Compose with PgBouncer
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_HOST=pgbouncer
+      - DATABASE_PORT=6432
+      - DB_POOL_MAX=3
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - pgbouncer
+      - redis
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '2'
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: rasid
+      POSTGRES_USER: rasid
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./migrations/rls-enable.sql:/docker-entrypoint-initdb.d/01-rls.sql
+    command: >
+      postgres
+        -c max_connections=200
+        -c shared_buffers=256MB
+        -c effective_cache_size=768MB
+        -c work_mem=16MB
+        -c log_statement=all
+
+  pgbouncer:
+    image: edoburu/pgbouncer:latest
+    environment:
+      DATABASE_URL: postgres://rasid:${DB_PASSWORD}@postgres:5432/rasid
+      POOL_MODE: transaction
+      MAX_CLIENT_CONN: 200
+      DEFAULT_POOL_SIZE: 20
+      MIN_POOL_SIZE: 5
+    ports:
+      - "6432:6432"
+    depends_on:
+      - postgres
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    ports:
+      - "6379:6379"
+
+volumes:
+  pgdata:

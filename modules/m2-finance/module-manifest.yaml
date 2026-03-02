@@ -1,0 +1,32 @@
+module:
+  id: M2
+  name: Finance
+  version: 1.0.0
+  tier: business-domain
+  phase: 1
+  complexity: HIGH
+database:
+  name: finance_db
+  isolation: dedicated
+  tier: 1  # Tier 1 physically isolated
+dependencies:
+  kernel: [K1, K2, K3, K4, K5, K6, K7, K9, K10]
+  modules: []
+api:
+  basePath: /api/v1/finance
+  version: v1
+events:
+  event_namespace: finance
+  namespace: finance
+  publishes:
+    - finance.invoice.created
+    - finance.invoice.approved
+    - finance.payment.received
+    - finance.budget.exceeded
+    - finance.period.closed
+  subscribes:
+    - hrm.payroll.approved
+    - procurement.order.approved
+health:
+  endpoint: /api/v1/finance/health
+  interval: 15s

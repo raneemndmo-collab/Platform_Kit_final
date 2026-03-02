@@ -1,0 +1,11 @@
+{
+  "module_id": "d10-trans",
+  "version": "6.4.0",
+  "phase": "7",
+  "description": "Translation Direction — RTL↔LTR",
+  "event_namespace": "d10_trans",
+  "database": "trans_db",
+  "tier": 2,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["P-003", "P-006", "HC-04", "ESR-001"]
+}

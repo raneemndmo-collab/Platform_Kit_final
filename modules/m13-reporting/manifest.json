@@ -1,0 +1,11 @@
+{
+  "module_id": "m13-reporting",
+  "version": "6.4.0",
+  "phase": "3",
+  "description": "Reporting Service",
+  "event_namespace": "m13_reporting",
+  "database": "reporting_db",
+  "tier": 2,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["P-003", "P-006", "HC-04", "ESR-001"]
+}

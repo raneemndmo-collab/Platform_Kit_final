@@ -1,0 +1,138 @@
+# =============================================================================
+# Rasid Platform v6 — Kubernetes Deployment Template
+# Constitutional Reference: DCD-011, P-008 (Horizontal Scaling)
+# =============================================================================
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rasid-platform
+  namespace: rasid-kernel
+  labels:
+    app: rasid-platform
+    version: "6.0.0"
+    phase: "0"
+    tier: kernel
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: rasid-platform
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: rasid-platform
+        tier: kernel
+    spec:
+      serviceAccountName: rasid-platform
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        fsGroup: 1001
+      containers:
+        - name: rasid-platform
+          image: "{{ .Values.global.image.repository }}:{{ .Values.global.image.tag }}"
+          imagePullPolicy: "{{ .Values.global.image.pullPolicy }}"
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+              name: http
+          envFrom:
+            - secretRef:
+                name: rasid-db-credentials
+            - configMapRef:
+                name: rasid-platform-config
+          # Health checks (K9: 15-second interval)
+          livenessProbe:
+            httpGet:
+              path: /api/v1/config/health
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /api/v1/config/health
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            timeoutSeconds: 5
+            successThreshold: 1
+          resources:
+            requests:
+              cpu: 500m
+              memory: 512Mi
+            limits:
+              cpu: 2000m
+              memory: 2Gi
+      # Spread across nodes (P-008)
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: rasid-platform
+
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: rasid-platform
+  namespace: rasid-kernel
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app: rasid-platform
+
+---
+# HPA (P-008: Horizontal-Only Scaling)
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: rasid-platform-hpa
+  namespace: rasid-kernel
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: rasid-platform
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+
+---
+# PodDisruptionBudget
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: rasid-platform-pdb
+  namespace: rasid-kernel
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: rasid-platform

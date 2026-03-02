@@ -1,0 +1,28 @@
+module_id: D10
+name: Translation & Direction Engine
+version: 1.0.0
+phase: 6
+tier: X
+cluster: DPC-GPU
+database:
+  name: translation_db
+  type: postgresql
+  tier: 2
+  instance: db-dpc-standard
+event_namespace: translate
+api_base: /api/v1/translate
+dependencies:
+  kernel: [K4, K5, K9, K10]
+  modules: []
+  d_modules: [D1]
+events_published:
+  - translate.completed
+  - translate.mirrored
+  - translate.failed
+events_subscribed:
+  - "conversion.step.translate.requested"
+health_endpoint: /api/v1/translate/health
+complexity: HIGH
+forbidden:
+  - "TXD-005: No business module DB access"
+  - "TXD-007: Deterministic processing only"

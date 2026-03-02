@@ -1,0 +1,23 @@
+module_id: M13
+name: Reporting
+version: 1.0.0
+phase: 3
+tier: 1
+database:
+  name: reporting_db
+  type: postgresql
+  tier: 2
+  instance: db-ai-01
+event_namespace: report
+api_base: /api/v1/reports
+dependencies:
+  kernel: [K1, K2, K3, K4, K5, K9, K10]
+  modules: [M12, M25]
+events_published:
+  - report.definition.created
+  - report.generated
+  - report.failed
+events_subscribed:
+  - analytics.aggregation.completed
+health_endpoint: /api/v1/reports/health
+complexity: MEDIUM

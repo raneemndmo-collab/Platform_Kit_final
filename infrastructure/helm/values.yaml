@@ -1,0 +1,154 @@
+# =============================================================================
+# Rasid Platform v6 — Helm Chart Values (Phase 0: Kernel Foundation)
+# Constitutional Reference: DCD-011 (Declarative deployment)
+# Namespace: rasid-kernel
+# =============================================================================
+
+global:
+  platform:
+    name: rasid-platform
+    version: "6.0.0"
+    phase: "0"
+    tier: kernel
+  
+  namespace: rasid-kernel
+  
+  image:
+    repository: registry/rasid-kernel/platform
+    tag: "6.0.0"
+    pullPolicy: IfNotPresent
+
+  # Database (DBM-001: Isolated per module)
+  database:
+    host: postgres-kernel
+    port: 5432
+    username: rasid
+    # Secret reference — never plaintext (FP-008)
+    passwordSecret: rasid-db-credentials
+    sslMode: require
+
+  # Redis
+  redis:
+    host: redis
+    port: 6379
+
+  # Kafka (K5)
+  kafka:
+    brokers: "kafka:29092"
+
+# --- Kernel Subsystem Deployments ---
+kernels:
+  # Constitutional Build Order
+  k4-config:
+    enabled: true
+    replicas: 2
+    database: config_db
+    resources:
+      requests: { cpu: 100m, memory: 256Mi }
+      limits: { cpu: 500m, memory: 512Mi }
+
+  k5-event-bus:
+    enabled: true
+    replicas: 3  # High availability for event routing
+    database: eventbus_db
+    resources:
+      requests: { cpu: 200m, memory: 512Mi }
+      limits: { cpu: 1000m, memory: 1Gi }
+
+  k1-auth:
+    enabled: true
+    replicas: 2
+    database: auth_db
+    resources:
+      requests: { cpu: 200m, memory: 256Mi }
+      limits: { cpu: 500m, memory: 512Mi }
+
+  k2-authz:
+    enabled: true
+    replicas: 2
+    database: authz_db
+    resources:
+      requests: { cpu: 100m, memory: 256Mi }
+      limits: { cpu: 500m, memory: 512Mi }
+
+  k3-audit:
+    enabled: true
+    replicas: 2
+    database: audit_db
+    resources:
+      requests: { cpu: 100m, memory: 256Mi }
+      limits: { cpu: 500m, memory: 512Mi }
+
+  k9-monitoring:
+    enabled: true
+    replicas: 2
+    database: monitoring_db
+    resources:
+      requests: { cpu: 200m, memory: 512Mi }
+      limits: { cpu: 1000m, memory: 1Gi }
+
+  k10-lifecycle:
+    enabled: true
+    replicas: 2
+    database: lifecycle_db
+    resources:
+      requests: { cpu: 100m, memory: 256Mi }
+      limits: { cpu: 500m, memory: 512Mi }
+
+  k8-governance:
+    enabled: true
+    replicas: 2
+    database: governance_db
+    resources:
+      requests: { cpu: 100m, memory: 256Mi }
+      limits: { cpu: 500m, memory: 512Mi }
+
+  k6-notification:
+    enabled: true
+    replicas: 2
+    database: notification_db
+    resources:
+      requests: { cpu: 100m, memory: 256Mi }
+      limits: { cpu: 500m, memory: 512Mi }
+
+  k7-orchestration:
+    enabled: true
+    replicas: 2
+    database: orchestration_db
+    resources:
+      requests: { cpu: 200m, memory: 512Mi }
+      limits: { cpu: 1000m, memory: 1Gi }
+
+# --- Health Check Configuration (K9) ---
+healthCheck:
+  interval: 15  # seconds (Performance Envelope)
+  timeout: 5
+  failureThreshold: 3
+  successThreshold: 1
+
+# --- Network Policy (Runtime enforcement) ---
+networkPolicy:
+  enabled: true
+  # P-003: Database access restricted per module
+  databaseIsolation: true
+  # COM-003: Pod-to-pod via API Gateway only
+  directPodAccess: false
+
+# --- Autoscaling (P-008: Horizontal-Only) ---
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPU: 70
+  targetMemory: 80
+
+# --- Canary Deployment (DCD-013) ---
+canary:
+  enabled: true
+  trafficWeight: 5  # 5% to canary
+  duration: 10m
+  errorRateThreshold: 1  # Auto-rollback if > 1%
+
+# --- Pod Disruption Budget ---
+podDisruptionBudget:
+  minAvailable: 1

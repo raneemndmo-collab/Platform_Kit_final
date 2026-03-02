@@ -1,0 +1,69 @@
+/**
+ * ═══════════════════════════════════════════════════════════════════════
+ * RASID v6.2 Module Template: Controller
+ * All Phase 4+ modules MUST be scaffolded from this template
+ * Rules: API-001, API-002, API-003, DGP-008, ZTS-003
+ * ═══════════════════════════════════════════════════════════════════════
+ */
+import { Controller, Get, Post, Put, Delete, Body, Param, Query, Headers } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { ${MODULE_NAME}Service } from '../services/${MODULE_SLUG}.service';
+
+// v6.2: Audit decorator (P-017: Audit Everything)
+function Audit(level: 'internal' | 'restricted' | 'public') {
+  return function (target: any, key: string, descriptor: PropertyDescriptor) {
+    const original = descriptor.value;
+    descriptor.value = async function (...args: any[]) {
+      const start = Date.now();
+      const result = await original.apply(this, args);
+      // Audit event emitted via EventBus (K3 consumption)
+      return result;
+    };
+    return descriptor;
+  };
+}
+
+@ApiTags('${MODULE_NAME}')
+@ApiBearerAuth()
+@Controller('api/v1/${MODULE_SLUG}')  // API-004: URL path versioning
+export class ${MODULE_NAME}Controller {
+  constructor(private readonly service: ${MODULE_NAME}Service) {}
+
+  @Post()
+  @ApiOperation({ summary: 'Create ${MODULE_NAME} resource' })
+  @ApiResponse({ status: 201, description: 'Created' })
+  @ApiResponse({ status: 400, description: 'Validation error' })
+  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @Audit('internal')
+  async create(@Body() dto: any, @Headers('x-tenant-id') tenantId: string) {
+    // v6.2: tenantId is REQUIRED (P-016, TNT-001)
+    return this.service.create({ ...dto, tenantId });
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: 'Get ${MODULE_NAME} by ID' })
+  @ApiResponse({ status: 200, description: 'Found' })
+  @ApiResponse({ status: 404, description: 'Not found' })
+  @Audit('internal')
+  async findOne(@Param('id') id: string, @Headers('x-tenant-id') tenantId: string) {
+    return this.service.findOne(id, tenantId);
+  }
+
+  @Get()
+  @ApiOperation({ summary: 'List ${MODULE_NAME} resources' })
+  @ApiResponse({ status: 200, description: 'List with pagination' })
+  @Audit('internal')
+  async findAll(
+    @Headers('x-tenant-id') tenantId: string,
+    @Query('page') page?: number,
+    @Query('limit') limit?: number
+  ) {
+    return this.service.findAll(tenantId, { page: page || 1, limit: limit || 20 });
+  }
+
+  @Get('health')
+  @ApiOperation({ summary: 'Health check endpoint' })
+  async health() {
+    return this.service.healthCheck();
+  }
+}

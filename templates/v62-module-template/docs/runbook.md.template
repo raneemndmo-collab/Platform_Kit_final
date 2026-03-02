@@ -1,0 +1,10 @@
+# Runbook: ${MODULE_NAME} (SRE-015)
+## SLO: availability=${SLO_AVAILABILITY}, p50=${SLO_P50}
+## Alerts
+- latency.p95 > threshold → High Latency
+- error_rate > threshold → Error Spike
+- health.down → Module Down
+## Diagnosis
+1. K9 dashboard 2. Structured logs 3. DB status 4. Event consumer lag
+## Mitigation
+1. Scale horizontally 2. Circuit break 3. Check long queries

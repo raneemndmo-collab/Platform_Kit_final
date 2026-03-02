@@ -1,0 +1,11 @@
+{
+  "module_id": "m20-notif",
+  "version": "6.4.0",
+  "phase": "4",
+  "description": "Notification Center",
+  "event_namespace": "m20_notif",
+  "database": "notif_center_db",
+  "tier": 2,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["P-003", "P-006", "HC-04", "ESR-001"]
+}

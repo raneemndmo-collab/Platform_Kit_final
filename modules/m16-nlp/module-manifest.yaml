@@ -1,0 +1,23 @@
+module_id: M16
+name: NLP
+version: 1.0.0
+phase: 3
+database:
+  name: nlp_db
+  type: postgresql
+  tier: 3
+  instance: db-ai-01
+event_namespace: ai.nlp
+api_base: /api/v1/nlp
+dependencies:
+  kernel: [K1, K2, K3, K5, K9, K10]
+  modules: [M11]
+containment:
+  db_credentials: nlp_db_only
+  no_cross_db_access: true
+events_published:
+  - ai.nlp.processed
+events_subscribed:
+  - ai.inference.completed
+health_endpoint: /api/v1/nlp/health
+complexity: HIGH

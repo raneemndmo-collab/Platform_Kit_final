@@ -1,0 +1,43 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: m2-finance-network-policy
+  namespace: rasid
+  labels:
+    rasid.io/module: "m2-finance"
+    rasid.io/version: "6.4"
+spec:
+  podSelector:
+    matchLabels:
+      app: m2-finance
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: m30-gateway
+        - podSelector:
+            matchLabels:
+              rasid.io/tier: kernel
+      ports:
+        - port: 3000
+          protocol: TCP
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: m2-finance-db
+      ports:
+        - port: 5432
+          protocol: TCP
+    - to:
+        - podSelector:
+            matchLabels:
+              rasid.io/tier: kernel
+      ports:
+        - port: 3000
+          protocol: TCP
+    - to: []
+      ports:
+        - port: 53
+          protocol: UDP

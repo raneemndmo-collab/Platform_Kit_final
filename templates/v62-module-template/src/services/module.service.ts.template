@@ -1,0 +1,76 @@
+/**
+ * ═══════════════════════════════════════════════════════════════════════
+ * RASID v6.2 Module Template: Service Layer
+ * Rules: P-003 (Database Isolation), TNT-001 (Tenant Filtering),
+ *        DGP-008 (PII Protection), ESR-001 (Event Publishing)
+ * ═══════════════════════════════════════════════════════════════════════
+ */
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+// import { ${ENTITY_NAME} } from '../domain/entities';
+
+@Injectable()
+export class ${MODULE_NAME}Service {
+  constructor(
+    // @InjectRepository(${ENTITY_NAME})
+    // private readonly repo: Repository<${ENTITY_NAME}>,
+  ) {}
+
+  /**
+   * Create resource — TNT-001: tenantId injected from middleware
+   * DGP-007: L4+ data access produces audit event
+   */
+  async create(dto: any): Promise<any> {
+    if (!dto.tenantId) {
+      throw new ForbiddenException('TENANT_REQUIRED');
+    }
+    // const entity = this.repo.create(dto);
+    // const saved = await this.repo.save(entity);
+    // Publish domain event via K5 (ESR-001)
+    // FP-053: Events carry reference IDs only, NEVER PII
+    // await this.eventBus.publish('${EVENT_NAMESPACE}.created', { id: saved.id, tenantId: saved.tenantId });
+    // return saved;
+    return { ...dto, id: 'placeholder', createdAt: new Date().toISOString() };
+  }
+
+  /**
+   * Find one by ID — TNT-001: tenant-scoped query
+   * P-003: Query ONLY own database, never cross-module
+   */
+  async findOne(id: string, tenantId: string): Promise<any> {
+    if (!tenantId) throw new ForbiddenException('TENANT_REQUIRED');
+    // const entity = await this.repo.findOne({ where: { id, tenantId } });
+    // if (!entity) throw new NotFoundException('${MODULE_NAME}_NOT_FOUND');
+    // return entity;
+    return { id, tenantId };
+  }
+
+  /**
+   * Find all — TNT-001: tenant-scoped, paginated
+   * API-001: Pagination for collection endpoints
+   */
+  async findAll(tenantId: string, opts: { page: number; limit: number }): Promise<any> {
+    if (!tenantId) throw new ForbiddenException('TENANT_REQUIRED');
+    const { page, limit } = opts;
+    // const [items, total] = await this.repo.findAndCount({
+    //   where: { tenantId },
+    //   skip: (page - 1) * limit,
+    //   take: limit,
+    //   order: { createdAt: 'DESC' },
+    // });
+    // return { items, total, page, limit, pages: Math.ceil(total / limit) };
+    return { items: [], total: 0, page, limit, pages: 0 };
+  }
+
+  /**
+   * Health check — K9 consumption, SRE-001 compliant
+   */
+  async healthCheck(): Promise<{ status: string; module: string; timestamp: string }> {
+    return {
+      status: 'healthy',
+      module: '${MODULE_ID}',
+      timestamp: new Date().toISOString(),
+    };
+  }
+}

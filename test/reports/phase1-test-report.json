@@ -1,0 +1,75 @@
+{
+  "timestamp": "2026-03-01T08:23:30.689Z",
+  "phase": 1,
+  "results": {
+    "pass": 252,
+    "warn": 7,
+    "fail": 0,
+    "total": 259,
+    "score": 97
+  },
+  "errors": [],
+  "modules": [
+    "M30",
+    "M1",
+    "M2",
+    "M3",
+    "M4",
+    "M5"
+  ],
+  "events": {
+    "M30": [
+      "gateway.rate.exceeded"
+    ],
+    "M1": [
+      "hrm.employee.created",
+      "hrm.employee.updated",
+      "hrm.employee.terminated",
+      "hrm.leave.approved",
+      "hrm.attendance.recorded",
+      "hrm.payroll.approved"
+    ],
+    "M2": [
+      "finance.invoice.created",
+      "finance.invoice.approved",
+      "finance.payment.received",
+      "finance.budget.exceeded"
+    ],
+    "M3": [
+      "crm.lead.created",
+      "crm.lead.converted",
+      "crm.opportunity.won",
+      "crm.opportunity.lost",
+      "crm.activity.logged"
+    ],
+    "M4": [
+      "inventory.stock.received",
+      "inventory.stock.issued",
+      "inventory.stock.adjusted",
+      "inventory.stock.low"
+    ],
+    "M5": [
+      "procurement.vendor.onboarded",
+      "procurement.order.created",
+      "procurement.order.approved",
+      "procurement.order.received"
+    ]
+  },
+  "subscriptions": {
+    "M30": [],
+    "M1": [],
+    "M2": [
+      "hrm.payroll.approved",
+      "procurement.order.approved"
+    ],
+    "M3": [
+      "finance.invoice.paid"
+    ],
+    "M4": [
+      "procurement.order.received"
+    ],
+    "M5": [
+      "inventory.stock.low"
+    ]
+  }
+}

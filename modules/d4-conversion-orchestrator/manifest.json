@@ -1,0 +1,11 @@
+{
+  "module_id": "d4-convert",
+  "version": "6.4.0",
+  "phase": "6",
+  "description": "Conversion Orchestrator Pipeline",
+  "event_namespace": "d4_convert",
+  "database": "convert_db",
+  "tier": 2,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["P-003", "P-006", "HC-04", "ESR-001"]
+}

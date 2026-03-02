@@ -1,0 +1,11 @@
+{
+  "module_id": "infographic_engine",
+  "version": "6.4.0",
+  "phase": "v6.4",
+  "description": "Intelligent Infographic Expansion — Insight-to-Infographic, Balance, Hierarchy",
+  "event_namespace": "infographic_engine",
+  "database": "infographic_engine_db",
+  "tier": 2,
+  "dependencies": ["k1-auth", "k3-audit", "k5-event-bus"],
+  "constitutional_refs": ["v6.4"]
+}

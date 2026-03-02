@@ -1,0 +1,72 @@
+# Rasid Platform v6.2 — Chaos Engineering Configuration
+# Constitutional: Part 19 (Tier X Stress Tests), Part 7 (Structural Stress)
+
+experiments:
+  # Pod Kill Tests
+  - name: random-pod-kill
+    target: all-modules
+    action: kill-pod
+    frequency: every-4-hours
+    duration: 1-pod-at-a-time
+    success: module-recovers-within-30s
+
+  - name: dpc-node-failure
+    target: dpc-cluster
+    action: drain-node
+    frequency: weekly
+    success: conversions-continue-on-remaining-nodes
+
+  # Network Partition
+  - name: k5-event-bus-partition
+    target: k5-event-bus
+    action: network-partition-60s
+    success: events-buffered-and-delivered-after-recovery
+
+  # Resource Exhaustion
+  - name: memory-pressure
+    target: d6-media-engine
+    action: inject-200mb-documents
+    count: 100
+    success: zero-oom-kills-graceful-rejection
+
+  # Multi-region Failover
+  - name: region-failover
+    target: primary-region
+    action: full-region-unavailable
+    success: failover-within-5-minutes
+
+  # Tenant Isolation Under Stress
+  - name: tenant-isolation-stress
+    target: all-modules
+    action: high-load-single-tenant
+    concurrent-requests: 10000
+    success: other-tenants-unaffected
+
+# v6.4 Enhanced Module Chaos Tests
+experiments:
+  - name: apil-orchestrator-crash
+    type: pod-kill
+    target: apil-orchestrator
+    frequency: 60m
+    expected: auto-recovery within 30s
+
+  - name: v64-db-latency-injection
+    type: network-delay
+    target: "*-intelligence-db"
+    delay: 500ms
+    duration: 5m
+    expected: graceful degradation, no data loss
+
+  - name: arabic-ai-high-cpu
+    type: cpu-stress
+    target: arabic-ai-engine
+    load: 90%
+    duration: 10m
+    expected: request queuing, no crashes
+
+  - name: cross-v64-network-partition
+    type: network-partition
+    source: apil-orchestrator
+    target: bi-cognitive
+    duration: 3m
+    expected: circuit breaker activation, cached responses

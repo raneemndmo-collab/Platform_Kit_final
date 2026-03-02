@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rasid-app
+  namespace: rasid
+  labels:
+    app: rasid-app
+    app.kubernetes.io/part-of: rasid-platform
+spec:
+  type: ClusterIP
+  selector:
+    app: rasid-app
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rasid-app-lb
+  namespace: rasid
+  labels:
+    app: rasid-app
+    app.kubernetes.io/part-of: rasid-platform
+  annotations:
+    service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
+    service.beta.kubernetes.io/do-loadbalancer-algorithm: "round_robin"
+    service.beta.kubernetes.io/do-loadbalancer-healthcheck-path: "/health/live"
+    service.beta.kubernetes.io/do-loadbalancer-healthcheck-protocol: "http"
+spec:
+  type: LoadBalancer
+  selector:
+    app: rasid-app
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
+      protocol: TCP
+    - name: https
+      port: 443
+      targetPort: 3000
+      protocol: TCP
