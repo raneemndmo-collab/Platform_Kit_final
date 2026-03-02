@@ -44,3 +44,15 @@ export { WorkflowEngine, type WorkflowDefinition, type WorkflowInstance, type Wo
 
 // محرك الإشعارات
 export { NotificationEngine, type Notification, type NotificationTemplate, type NotificationPreference } from './notification-engine';
+
+// محرك الامتثال — تسجيل الامتثال لـ 8 بنود تنظيمية + محرك الحالة
+export { ComplianceScoringEngine, ComplianceStateEngine, type ClauseScore, type ComplianceSnapshot, type ComplianceFinding, type EntityComplianceState, RegulatoryClause, REGULATORY_CLAUSES } from './compliance-engine';
+
+// توسيع محرك التقارير — قوالب مخصصة + تقارير قطاعية + مقارنة تاريخية
+export { ReportExpansionEngine, type CustomTemplate, type SectorReport, type HistoricalComparison, type PaginatedData } from './report-engine/report-expansion';
+
+// توسيع محرك التحليلات — تحليلات تنبؤية + توقعات اتجاه + تحليل قطاعي
+export { AnalyticsExpansionEngine, type PredictionResult, type TrendForecast, type SectorAnalysis } from './analytics-engine/analytics-expansion';
+
+// تحسينات الأداء — ترقيم صفحات + إدارة ذاكرة + معالجة بيانات ضخمة
+export { PerformanceOptimizer, type PaginatedResult, type MemoryStats, type StreamProgress } from './performance';
